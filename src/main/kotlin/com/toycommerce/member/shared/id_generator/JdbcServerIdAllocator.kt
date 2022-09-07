@@ -1,4 +1,4 @@
-package com.toycommerce.shared.id_generator
+package com.toycommerce.member.shared.id_generator
 
 import com.toycommerce.member.config.IdGeneratorConfig
 import org.springframework.beans.factory.annotation.Autowired

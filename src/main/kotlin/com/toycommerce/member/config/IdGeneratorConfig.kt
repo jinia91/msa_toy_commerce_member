@@ -1,9 +1,8 @@
 package com.toycommerce.member.config
 
-import com.toycommerce.shared.id_generator.IdGenerator
-import com.toycommerce.shared.id_generator.JdbcServerIdAllocator
-import com.toycommerce.shared.id_generator.ServerIdAllocator
-import com.toycommerce.shared.id_generator.SnowFlake53StrategyIdGeneratorImpl
+import com.toycommerce.member.shared.id_generator.IdGenerator
+import com.toycommerce.member.shared.id_generator.ServerIdAllocator
+import com.toycommerce.member.shared.id_generator.SnowFlake53StrategyIdGeneratorImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
