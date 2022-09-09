@@ -1,9 +1,7 @@
 package com.toycommerce.member.was.domain
 
-import javax.persistence.Column
 import javax.persistence.DiscriminatorValue
 import javax.persistence.Entity
-import javax.persistence.PrimaryKeyJoinColumn
 
 @Entity
 @DiscriminatorValue("SELLER")

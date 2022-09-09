@@ -33,12 +33,16 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-noarg")
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
     implementation("io.springfox:springfox-boot-starter:3.0.0")
+    implementation("javax.validation:validation-api:2.0.1.Final")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("mysql:mysql-connector-java")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+
 }
 
 tasks.withType<KotlinCompile> {
