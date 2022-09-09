@@ -1,24 +1,35 @@
 package com.toycommerce.member.was.domain
 
 import com.toycommerce.member.shared.domain.BasicEntity
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedDate
 import java.io.Serializable
-import java.time.LocalDateTime
-import javax.persistence.Column
-import javax.persistence.EmbeddedId
-import javax.persistence.Entity
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
-@Table(name = "member")
-class Member(
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorColumn(name = "role")
+abstract class Member internal constructor(
     @EmbeddedId
     val id: MemberId,
 
+    @Column(name = "pwd", length = 50, nullable = false)
+    var pwd: String,
+
     @Column(name = "nick_name", length = 10)
-    var nickName: String? = null,
+    var nickName: String,
+
+    @Column(length = 250, unique = true)
+    var email: String,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    val role: Role,
 ): BasicEntity() {
+    enum class Role{
+        ADMIN,
+        SELLER,
+        BUYER
+    }
+
     override fun getId(): Serializable {
         return id
     }

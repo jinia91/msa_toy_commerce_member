@@ -20,9 +20,9 @@ class SwaggerConfig{
     /**
      * API 태그 정의
      */
-    enum class SwaggerTags(val description : String){
-        ALL("전체"),
-        MEMBER("회원")
+    companion object SwaggerTags{
+        const val ALL = "all"
+        const val MEMBER = "member"
     }
 
     @Bean
@@ -37,8 +37,8 @@ class SwaggerConfig{
             .build()
             .useDefaultResponseMessages(false)
             .tags(
-                Tag(SwaggerTags.ALL.name, SwaggerTags.ALL.description, 0),
-                Tag(SwaggerTags.MEMBER.name, SwaggerTags.MEMBER.description, 1),
+                Tag(ALL, "전체", 0),
+                Tag(MEMBER, "계정", 1),
             )
     }
 

@@ -18,7 +18,7 @@ internal class MemberServiceTest{
 
     @Test
     fun `회원가입을 한다`() {
-        val member = memberService.register("가입")
+        val member = memberService.registerSeller("가입")
         Assertions.assertThat(member.nickName).isEqualTo("가입")
     }
 }
