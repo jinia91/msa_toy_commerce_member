@@ -11,7 +11,7 @@ class Buyer internal constructor(
     pwd: String,
     nickName: String,
     email: String,
+    var address: String,
 ): Member(id, pwd, nickName, email, Member.Role.BUYER){
-    @Column(name = "point")
-    private val point = 0
+    var point = 0
 }

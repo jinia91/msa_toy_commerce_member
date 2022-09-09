@@ -4,4 +4,5 @@ import com.toycommerce.member.was.application.port.`in`.SellerRegistrationComman
 
 data class SellerRegistrationResponse(
     val id: Long,
+    val email: String,
 )

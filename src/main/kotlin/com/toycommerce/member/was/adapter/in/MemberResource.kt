@@ -30,7 +30,7 @@ class MemberResource {
         }.run {
             memberUseCase.registerSeller(this)
         }.run {
-            SellerRegistrationResponse(this.id)
+            SellerRegistrationResponse(this.id, this.email)
         }.run {
             ResponseEntity(this, HttpStatus.OK)
         }
