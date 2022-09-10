@@ -4,14 +4,24 @@ import com.toycommerce.member.shared.domain.BasicEntity
 import com.toycommerce.member.shared.exception.BadRequestException
 import java.io.Serializable
 import javax.persistence.*
-import javax.validation.constraints.Email
+import kotlin.jvm.Transient
 
+/**
+ * 계정 엔티티 추상 클래스
+ *
+ * 동일 repo로 관리하되, 별개 클래스에 영속화하는 전략(table_per_class)
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name = "role")
 abstract class Member internal constructor(
     @EmbeddedId
     val id: MemberId,
+
+    /**
+     * 유효성 검증을 위한 파라미터
+     */
+    rawPwd: String,
 
     @Column(name = "pwd", length = 20, nullable = false)
     var pwd: String,
@@ -20,7 +30,6 @@ abstract class Member internal constructor(
     var nickName: String,
 
     @Column(length = 20, unique = true)
-    @Email
     var email: String,
 
     @Enumerated(EnumType.STRING)
@@ -32,16 +41,17 @@ abstract class Member internal constructor(
         SELLER,
         BUYER
     }
-    companion object{
-        val pwdRegex: Regex = Regex( "(?=.*[A-Za-z])(?=.*\\d)(?=.*[\$@\$!%*#?&])[A-Za-z\\d\$@\$!%*#?&]{8,20}\$")
-        val mailRegex: Regex = Regex( "^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+\$")
-    }
 
+    /**
+     * 엔티티 최초 생성시 공통 검증
+     */
     init {
-        if(!pwdRegex.matches(pwd)) throw BadRequestException("member.pwd")
-        if(!mailRegex.matches(email)) throw BadRequestException("member.email")
+        if (!MemberSpecification.validateRawPwd(rawPwd)) throw BadRequestException()
+        if (!MemberSpecification.validateEmail(email)) throw BadRequestException()
     }
-
+    /**
+     * 준영속 체크를 피하기 위한 getId() 오버라이딩
+     */
     override fun getId(): Serializable {
         return id
     }

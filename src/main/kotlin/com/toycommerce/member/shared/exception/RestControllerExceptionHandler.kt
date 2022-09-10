@@ -1,6 +1,6 @@
 package com.toycommerce.member.shared.exception
 
-import com.toycommerce.member.shared.log.logger
+import com.toycommerce.member.shared.log.log
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -12,6 +12,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
+import javax.naming.AuthenticationException
 
 /**
  * 예외 처리 AOP 핸들러
@@ -27,7 +28,7 @@ class RestControllerExceptionHandler {
     @ExceptionHandler(BusinessException::class)
     protected fun handle(exception: BusinessException): ResponseEntity<Any?> {
         if (exception.isNecessaryToLog) {
-            logger().error(exception.message, exception)
+            log().error(exception.message, exception)
         }
         return ResponseEntity<Any?>(ErrorResponse(exception.javaClass.simpleName, exception.message), HttpHeaders(), exception.httpStatus)
     }
@@ -37,7 +38,7 @@ class RestControllerExceptionHandler {
      */
     @ExceptionHandler(Throwable::class)
     protected fun handle(throwable: Throwable): ResponseEntity<ErrorResponse> {
-        logger().error(throwable.message, throwable)
+        log().error(throwable.message, throwable)
         return ResponseEntity<ErrorResponse>(ErrorResponse(throwable.javaClass.simpleName, throwable.message), HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
@@ -59,15 +60,21 @@ class RestControllerExceptionHandler {
     }
 
 
-//    @ExceptionHandler(org.springframework.security.core.AuthenticationException::class)
-//    protected fun handleAuthenticationException(exception: org.springframework.security.core.AuthenticationException): ResponseEntity<ErrorResponse> {
-//        val errorResponse = ErrorResponse(exception.javaClass.getSimpleName(), "Need Authentication.")
-//        return ResponseEntity<ErrorResponse>(errorResponse, HttpHeaders(), HttpStatus.UNAUTHORIZED)
-//    }
-//
-//    @ExceptionHandler(org.springframework.security.access.AccessDeniedException::class)
-//    protected fun handleAccessDeniedException(exception: org.springframework.security.access.AccessDeniedException): ResponseEntity<ErrorResponse> {
-//        val errorResponse = ErrorResponse(exception.javaClass.getSimpleName(), "Access Denied.")
-//        return ResponseEntity<ErrorResponse>(errorResponse, HttpHeaders(), HttpStatus.FORBIDDEN)
-//    }
+    /**
+     * 인증 필요 401 에러
+     */
+    @ExceptionHandler(AuthenticationException::class)
+    protected fun handleAuthenticationException(exception: AuthenticationException): ResponseEntity<ErrorResponse> {
+        val errorResponse = ErrorResponse(exception.javaClass.simpleName, "Need Authentication.")
+        return ResponseEntity<ErrorResponse>(errorResponse, HttpHeaders(), HttpStatus.UNAUTHORIZED)
+    }
+
+    /**
+     * 인가 필요 403 에러
+     */
+    @ExceptionHandler(AccessDeniedException::class)
+    protected fun handleAccessDeniedException(exception: AccessDeniedException): ResponseEntity<ErrorResponse> {
+        val errorResponse = ErrorResponse(exception.javaClass.simpleName, "Access Denied.")
+        return ResponseEntity<ErrorResponse>(errorResponse, HttpHeaders(), HttpStatus.FORBIDDEN)
+    }
 }

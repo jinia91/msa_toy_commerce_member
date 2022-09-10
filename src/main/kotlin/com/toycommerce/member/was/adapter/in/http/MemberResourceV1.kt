@@ -1,4 +1,4 @@
-package com.toycommerce.member.was.adapter.`in`
+package com.toycommerce.member.was.adapter.`in`.http
 
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController

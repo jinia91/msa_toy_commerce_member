@@ -7,11 +7,13 @@ import javax.persistence.Entity
 @DiscriminatorValue("SELLER")
 class Seller internal constructor(
     id: MemberId,
+    rawPwd: String,
     pwd: String,
     nickName: String,
     email: String,
-): Member(id, pwd, nickName, email, Member.Role.SELLER){
+): Member(id, rawPwd, pwd, nickName, email, Role.SELLER){
     companion object{
-        fun newOne(id: MemberId, pwd: String, nickName: String, email: String): Seller = Seller(id, pwd, nickName, email)
+        fun newOne(id: MemberId, rawPwd: String, pwd: String, nickName: String, email: String): Seller
+        = Seller(id, rawPwd, pwd, nickName, email)
     }
 }

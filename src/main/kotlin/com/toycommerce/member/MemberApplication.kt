@@ -1,4 +1,4 @@
-package com.toycommerce.member
+    package com.toycommerce.member
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
