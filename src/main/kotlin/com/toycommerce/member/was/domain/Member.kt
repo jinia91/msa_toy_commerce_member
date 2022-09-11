@@ -41,7 +41,6 @@ abstract class Member internal constructor(
         SELLER,
         BUYER
     }
-
     /**
      * 엔티티 최초 생성시 공통 검증
      */
